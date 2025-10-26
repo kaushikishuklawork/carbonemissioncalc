@@ -47,7 +47,7 @@ if submit:
         input_df = pd.DataFrame([user_input])
         carbon_pred = model.predict(input_df)[0]
 
-        st.success(f"✅ Estimated Carbon Emission: **{carbon_pred:.2f}**")
+        st.success(f"✅ Estimated Carbon Emission: **{carbon_pred:.2f}** kg CO2/ per month")
 
         # Basic interpretation (temporary)
         if carbon_pred < 200:
@@ -59,4 +59,5 @@ if submit:
 
     except Exception as e:
         st.error(f"Prediction failed: {e}")
+
 
