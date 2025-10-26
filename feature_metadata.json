@@ -1,0 +1,131 @@
+{
+    "categorical": {
+        "Body Type": [
+            "normal",
+            "obese",
+            "overweight",
+            "underweight"
+        ],
+        "Sex": [
+            "female",
+            "male"
+        ],
+        "Diet": [
+            "omnivore",
+            "pescatarian",
+            "vegan",
+            "vegetarian"
+        ],
+        "How Often Shower": [
+            "daily",
+            "less frequently",
+            "more frequently",
+            "twice a day"
+        ],
+        "Heating Energy Source": [
+            "coal",
+            "electricity",
+            "natural gas",
+            "wood"
+        ],
+        "Transport": [
+            "private",
+            "public",
+            "walk/bicycle"
+        ],
+        "Vehicle Type": [
+            "cng",
+            "cng ",
+            "diesel",
+            "electric",
+            "hybrid",
+            "lpg",
+            "na",
+            "petrol"
+        ],
+        "Social Activity": [
+            "never",
+            "often",
+            "sometimes"
+        ],
+        "Frequency of Traveling by Air": [
+            "frequently",
+            "never",
+            "rarely",
+            "very frequently"
+        ],
+        "Waste Bag Size": [
+            "extra large",
+            "large",
+            "medium",
+            "small"
+        ],
+        "Energy efficiency (Do you try to save energy?)": [
+            "No",
+            "Sometimes",
+            "Yes"
+        ],
+        "Recycling": [
+            "['Glass', 'Metal']",
+            "['Glass']",
+            "['Metal']",
+            "['Paper', 'Glass', 'Metal']",
+            "['Paper', 'Glass']",
+            "['Paper', 'Metal']",
+            "['Paper', 'Plastic', 'Glass', 'Metal']",
+            "['Paper', 'Plastic', 'Glass']",
+            "['Paper', 'Plastic', 'Metal']",
+            "['Paper', 'Plastic']",
+            "['Paper']",
+            "['Plastic', 'Glass', 'Metal']",
+            "['Plastic', 'Glass']",
+            "['Plastic', 'Metal']",
+            "['Plastic']",
+            "[]"
+        ],
+        "Cooking_With": [
+            "['Grill', 'Airfryer']",
+            "['Microwave', 'Grill', 'Airfryer']",
+            "['Microwave']",
+            "['Oven', 'Grill', 'Airfryer']",
+            "['Oven', 'Microwave', 'Grill', 'Airfryer']",
+            "['Oven', 'Microwave']",
+            "['Oven']",
+            "['Stove', 'Grill', 'Airfryer']",
+            "['Stove', 'Microwave', 'Grill', 'Airfryer']",
+            "['Stove', 'Microwave']",
+            "['Stove', 'Oven', 'Grill', 'Airfryer']",
+            "['Stove', 'Oven', 'Microwave', 'Grill', 'Airfryer']",
+            "['Stove', 'Oven', 'Microwave']",
+            "['Stove', 'Oven']",
+            "['Stove']",
+            "[]"
+        ]
+    },
+    "numeric": {
+        "Monthly Grocery Bill": {
+            "min": 50.0,
+            "max": 100000.0
+        },
+        "Vehicle Monthly Distance Km": {
+            "min": 0.0,
+            "max": 100000.0
+        },
+        "Waste Bag Weekly Count": {
+            "min": 1.0,
+            "max": 7.0
+        },
+        "How Long TV PC Daily Hour": {
+            "min": 0.0,
+            "max": 24.0
+        },
+        "How Many New Clothes Monthly": {
+            "min": 0.0,
+            "max": 100.0
+        },
+        "How Long Internet Daily Hour": {
+            "min": 0.0,
+            "max": 24.0
+        }
+    }
+}
