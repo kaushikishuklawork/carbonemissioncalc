@@ -6,7 +6,6 @@ import json
 st.set_page_config(page_title="Carbon Emission Calculator", layout="centered")
 
 # Load model and metadata
-@st.cache_resource
 def load_model():
     return joblib.load("carbon_model.pkl")
 
@@ -60,3 +59,4 @@ if submit:
 
     except Exception as e:
         st.error(f"Prediction failed: {e}")
+
