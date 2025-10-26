@@ -38,7 +38,7 @@
             "electric",
             "hybrid",
             "lpg",
-            "nan",
+            "cng",
             "petrol"
         ],
         "Social Activity": [
@@ -58,7 +58,7 @@
             "medium",
             "small"
         ],
-        "Energy efficiency": [
+        "Energy efficiency (Do you try to minimise the wastage of energy?": [
             "No",
             "Sometimes",
             "Yes"
@@ -103,11 +103,11 @@
     "numeric": {
         "Monthly Grocery Bill": {
             "min": 50.0,
-            "max": 299.0
+            "max": 100000.0
         },
         "Vehicle Monthly Distance Km": {
             "min": 0.0,
-            "max": 9964.0
+            "max": 100000.0
         },
         "Waste Bag Weekly Count": {
             "min": 1.0,
@@ -119,11 +119,12 @@
         },
         "How Many New Clothes Monthly": {
             "min": 0.0,
-            "max": 50.0
+            "max": 100.0
         },
         "How Long Internet Daily Hour": {
             "min": 0.0,
             "max": 24.0
         }
     }
+
 }
