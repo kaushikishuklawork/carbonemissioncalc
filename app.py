@@ -1,81 +1,62 @@
-# app.py
 import streamlit as st
 import pandas as pd
 import joblib
-import altair as alt
+import json
 
-# Load trained models
-models = joblib.load("carbon_model.pkl")
-reg_model = models['regression']
-kmeans_model = models['clustering']
-preprocessor = models['preprocessor']
-cluster_summary = models['cluster_summary']
+st.set_page_config(page_title="Carbon Emission Calculator", layout="centered")
 
-# Load CSV for dropdowns
-df = pd.read_csv("Carbon emission - Sheet1f.csv")
-categorical_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
-numeric_cols = [col for col in df.columns if col not in categorical_cols + ['CarbonEmission']]
+# Load model and metadata
+@st.cache_resource
+def load_model():
+    return joblib.load("carbon_model.pkl")
 
-# Map cluster numbers to names
-cluster_names = {0: "Low 🌱", 1: "Medium 🌿", 2: "High 🌳"}
+@st.cache_resource
+def load_metadata():
+    with open("feature_metadata.json", "r") as f:
+        return json.load(f)
 
-st.title("🌍 Carbon Footprint Predictor with Clustering & Visualization 🌿")
+model = load_model()
+metadata = load_metadata()
 
-# User inputs
+st.title("🌍 Carbon Emission Calculator")
+st.write("Enter your lifestyle details to estimate your carbon footprint.")
+
+# Build input form dynamically
 user_input = {}
-st.subheader("Categorical Inputs")
-for col in categorical_cols:
-    options = df[col].astype(str).unique().tolist()
-    user_input[col] = st.selectbox(f"{col}", options)
 
-st.subheader("Numeric Inputs")
-for col in numeric_cols:
-    min_val = float(df[col].min())
-    max_val = float(df[col].max())
-    mean_val = float(df[col].mean())
-    user_input[col] = st.number_input(f"{col}", min_value=min_val, max_value=max_val, value=mean_val)
+with st.form("carbon_form"):
+    st.subheader("📝 Your Information")
 
-# Convert input to DataFrame
-input_df = pd.DataFrame([user_input])
+    # Categorical Features (Dropdowns)
+    for col, options in metadata["categorical"].items():
+        user_input[col] = st.selectbox(col, options)
 
-# Fix types
-for col in categorical_cols:
-    input_df[col] = input_df[col].astype(str)
+    # Numeric Features (Sliders)
+    for col, rng in metadata["numeric"].items():
+        user_input[col] = st.number_input(
+            col,
+            min_value=rng["min"],
+            max_value=rng["max"],
+            value=rng["min"]
+        )
 
-for col in numeric_cols:
-    input_df[col] = pd.to_numeric(input_df[col], errors='coerce')
+    submit = st.form_submit_button("Calculate Emission")
 
-input_df.fillna(0, inplace=True)
+# Prediction
+if submit:
+    try:
+        input_df = pd.DataFrame([user_input])
+        carbon_pred = model.predict(input_df)[0]
 
-if st.button("Predict Carbon Emission & Cluster"):
-    # Predict carbon emission
-    prediction = reg_model.predict(input_df)[0]
-    
-    # Transform input for clustering
-    input_transformed = preprocessor.transform(input_df)
-    cluster_label = kmeans_model.predict(input_transformed)[0]
-    
-    st.success(f"Predicted Carbon Emission: {prediction:.2f} kg CO₂")
-    st.info(f"Cluster Assignment: {cluster_names.get(cluster_label, f'Cluster {cluster_label+1}')}")
+        st.success(f"✅ Estimated Carbon Emission: **{carbon_pred:.2f}**")
 
-    # Show cluster summary
-    summary = cluster_summary[cluster_label]
-    st.write(f"**Cluster Summary:**")
-    st.write(f"- Average Carbon Emission in Cluster: {summary['Average Carbon Emission']:.2f} kg CO₂")
-    st.write(f"- Number of People in Cluster: {summary['Sample Size']}")
-    
-    # Visualization: user vs cluster average
-    vis_df = pd.DataFrame({
-        'Type': ['Cluster Average', 'Your Prediction'],
-        'CarbonEmission': [summary['Average Carbon Emission'], prediction]
-    })
+        # Basic interpretation (temporary)
+        if carbon_pred < 200:
+            st.info("🌱 Impact Level: **Low**")
+        elif carbon_pred < 300:
+            st.warning("⚠️ Impact Level: **Medium**")
+        else:
+            st.error("🔥 Impact Level: **High**")
 
-    chart = alt.Chart(vis_df).mark_bar(color='steelblue').encode(
-        x='Type',
-        y='CarbonEmission'
-    ).properties(
-        title=f"🌿 Your Carbon Emission vs {cluster_names.get(cluster_label)} Average"
-    )
-
-    st.altair_chart(chart, use_container_width=True)
-
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
